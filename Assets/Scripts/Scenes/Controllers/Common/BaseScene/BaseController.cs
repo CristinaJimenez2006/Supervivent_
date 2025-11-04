@@ -1,6 +1,9 @@
 using UnityEngine;
 using TMPro;
 
+// És una classe abstracta que serveix com a plantilla per a tots els nivells.
+// Conté la lògica comuna de tots els nivells.
+// Això evita repetir codi i facilita que tots els nivells segueixin la mateixa estructura.
 public abstract class BaseLevelController : MonoBehaviour
 {
     [Header("Panels UI")]

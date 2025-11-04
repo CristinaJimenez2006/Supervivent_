@@ -13,14 +13,14 @@ public class Level1Controller : BaseLevelController
     public TextMeshProUGUI timeTextResultVictory;
     public TextMeshProUGUI timeTextResultDefeat;
 
-    // Nombre de llanternes necessàries per guanyar el nivell.
+    // Nombre d'objectes recol·lectats necessaris per guanyar el nivell.
     [SerializeField] private int recollectiblesNecessary = 5;
 
     // Temps límit del nivell en segons.
     [SerializeField] private float limitTimeLevel1 = 180f;
     public override float LimitTime { get { return limitTimeLevel1; } }
 
-    // Comptador de llanternes recol·lectades durant el nivell.
+    // Comptador d'objectes recol·lectats durant el nivell.
     private int recollectiblesCollectedLevel1 = 0;
 
     // Nom de l'ítem que es pot recollir.
@@ -36,7 +36,7 @@ public class Level1Controller : BaseLevelController
         set { remainingTimeLevel1 = value; }
     }
 
-    // Condició de victòria: si s'han recollit suficients llanternes.
+    // Condició de victòria: si s'han recollit tots els objectes recol·lectats.
     public override bool VictoryConditionAchieved { get { return recollectiblesCollectedLevel1 >= recollectiblesNecessary; } }
 
     // Condició de derrota: si el temps s'ha esgotat.
@@ -79,8 +79,8 @@ public class Level1Controller : BaseLevelController
     // Actualitza els elements del HUD cada frame.
     public override void HUDUpdate()
     {
-        // Actualitza el comptador de llanternes a la pantalla.
-        FlashLightsUpdate();
+        // Actualitza el comptador d'objectes recol·lectats a la pantalla.
+        RecollectiblesUpdate();
 
         // Actualitza el temps a la pantalla.
         TimeUpdate();
@@ -89,17 +89,17 @@ public class Level1Controller : BaseLevelController
     // Mètode cridat quan es recull un ítem.
     public override void OnItemCollected(string itemType, int quantity)
     {
-        // Si l'ítem recollit és una llanterna.
+        // Si l'ítem recollit és un objecte recol·lectat.
         if (itemType == nameRecollectible)
         {
-            // Augmenta el comptador de llanternes.
+            // Augmenta el comptador d'objectes recol·lectats.
             recollectiblesCollectedLevel1 += quantity;
-            FlashLightsUpdate();
+            RecollectiblesUpdate();
         }
     }
 
-    // Actualitza el comptador de llanternes al HUD.
-    private void FlashLightsUpdate()
+    // Actualitza el comptador d'objectes recol·lectats al HUD.
+    private void RecollectiblesUpdate()
     {
         if (recollectibleText != null) recollectibleText.text = $"{recollectiblesCollectedLevel1} / {recollectiblesNecessary}";
     }
@@ -139,7 +139,7 @@ public class Level1Controller : BaseLevelController
         AudioManager.audioInstance?.PlaySoundDefeat();
     }
 
-    // Actualitza els textos de llanternes i temps en l'escena de resultats.
+    // Actualitza els textos dels objectes recol·lectats i temps en l'escena de resultats.
     private void ResultsUpdate(TextMeshProUGUI recollectibleTextResult, TextMeshProUGUI timeTextResult)
     {
         if (recollectibleTextResult != null)
